@@ -9,7 +9,6 @@ const { isInteger, getIpAddress, CircularBuffer } = require('./lib.js')
 
 // Config values
 const BUFFER_SIZE = 1000
-// const MAX_VAL = 1000
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`)
