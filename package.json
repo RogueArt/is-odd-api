@@ -1,0 +1,20 @@
+{
+  "name": "is-odd-api",
+  "version": "1.0.0",
+  "description": "An API for testing if a number is odd or even.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server/index.js",
+    "start": "node server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-plugin-react": "^7.24.0"
+  }
+}
