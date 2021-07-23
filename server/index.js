@@ -15,6 +15,11 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`)
 })
 
+// Endpoint with no parameter
+app.get('/isodd', (req, res) => {
+  return res.json({ error: 'Did not specify an integer in query.'})
+})
+
 // Cache the last 1000 requests in this object
 const pastRequests = {}
 app.get('/isodd/:number', (req, res) => {
@@ -31,11 +36,6 @@ app.get('/isodd/:number', (req, res) => {
     return res.json({ error: 'Did not a specify a valid integer.' })
   }
 
-  // Convert the number into an integer
-  // if (parseInt(number) > 999) {
-  //   return res.json({ error: 'Exceed range of allowed values.' })
-  // }
-
   // Check the parity of the number
   const lastDigit = parseInt(number[number.length - 1])
   const isOdd = lastDigit % 2 === 1
@@ -50,6 +50,21 @@ app.get('/isodd/:number', (req, res) => {
 
   // Send the parity as JSON
   return res.json({ isOdd })
+})
+
+// TO-DO: Add machine learning to this
+// Endpoint that uses machine learning to predict if next value will be even or odd
+app.get('/predict', (req, res) => {
+  const ip = getIpAddress(req)
+  
+  // Error if we have no data on them
+  if (pastRequests[ip] == null) {
+    return res.json({ error: 'You must call the isOdd endpoint with a valid integer at least once to get a prediction.'})
+  }
+
+  const probability = (pastRequests[ip].buffer.reduce((val, sum) => val + sum)/pastRequests[ip].buffer.length).toFixed(3)
+  const willItBeOdd = probability >= 0.5
+  return res.json({ willItBeOdd, probability })
 })
 
 app.get('/', (req, res) => {
